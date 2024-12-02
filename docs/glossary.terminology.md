@@ -8,7 +8,11 @@ By default, Prometheus stores time-series data for 30 days, and QAN stores query
 
 Depending on available disk space and your requirements, you may need to adjust data retention time.
 
-You can control data retention by passing the `METRICS_RETENTION` and `QUERIES_RETENTION` environment variables when creating and running the SSM Server container.
+You can control data retention by passing the `METRICS_RETENTION` and `QUERIES_RETENTION` environment variables when creating and running the SSM Server container. For retention time set to one week:
+```
+-e METRICS_RETENTION="168h" \
+-e QUERIES_RETENTION="168h" \
+```
 
 ## Data Source Name
 
