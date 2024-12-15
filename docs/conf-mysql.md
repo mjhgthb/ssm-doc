@@ -94,15 +94,25 @@ sudo ssm-admin add mysql --user ssm --password pass
 
 For more information, run as root **ssm-admin add** `mysql --help`.
 
+## Configuring long_query_time
+
+In heavily loaded applications, frequent fast queries can actually have a much bigger impact on performance than rare slow queries.  Having said that, optimizable queries are rarely faster than 4ms. You may feel tempted to set the `long_query_time` to **0** so that all queries are captured, but bear in mind that the slow log bottlenecks at around 30,000 queries per second - if you set long_query_time to 0, this is the approximate limit you will end up throttling your server to. This can also result in a lagging overload in query harvesting, which we tested to top out at around 20,000 QPS.
+
+Capturing all queries consumes I/O bandwidth and will cause the *slow query log* file to quickly grow very large.
+
+All of this applies to all current versions of MySQL and MariaDB.
+
+For this reason, it is not recommended to set long_query_time below 4ms. A higher setting can be appropriate on servers with many CPU cores. So set long_query_time to a setting that results in slow log capturing no more than 10,000 seconds at peak.
+
+If you are specifically interested in performance of queries below the long_query_time threshold, consider switching to capturing query information from performance_schema, but be aware that due to limitations of MySQL and MariaDB, this query capture method is not currently able to capture queries executed as prepared statements.
+
 ## Configuring the slow query log in Percona Server
 
 If you are running Percona Server, a properly configured slow query log will provide the most amount of information with the lowest overhead.  In other cases, use Performance Schema if it is supported.
 
 By definition, the slow query log is supposed to capture only *slow queries*. These are the queries the execution time of which is above a certain threshold. The threshold is defined by the [`long_query_time`](http://dev.mysql.com/doc/refman/5.7/en/server-system-variables.html#sysvar_long_query_time) variable.
 
-In heavily loaded applications, frequent fast queries can actually have a much bigger impact on performance than rare slow queries.  To ensure comprehensive analysis of your query traffic, set the `long_query_time` to **0** so that all queries are captured.
-
-However, capturing all queries can consume I/O bandwidth and cause the *slow query log* file to quickly grow very large. To limit the amount of queries captured by the *slow query log*, use the *query sampling* feature available in Percona Server.
+To limit the amount of queries captured by the *slow query log*, in addition to long_query_time, you can use the *query sampling* feature available in Percona Server.
 
 The [`log_slow_rate_limit`](https://www.percona.com/doc/percona-server/5.7/diagnostics/slow_extended.html#log_slow_rate_limit) variable defines the fraction of queries captured by the *slow query log*.  A good rule of thumb is to have approximately 100 queries logged per second.  For example, if your Percona Server instance processes 10_000 queries per second, you should set `log_slow_rate_limit` to `100` and capture every 100th query for the *slow query log*.
 
