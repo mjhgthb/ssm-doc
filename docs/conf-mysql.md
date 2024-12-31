@@ -86,6 +86,11 @@ GRANT SELECT, PROCESS, SUPER, REPLICATION CLIENT, RELOAD ON *.* TO 'ssm'@'localh
 GRANT SELECT, UPDATE, DELETE, DROP ON performance_schema.* TO 'ssm'@'localhost';
 ```
 
+On MySQL 8+, also add the `SHOW VIEW` privilege:
+```
+GRANT SHOW VIEW ON *.* TO 'ssm'@'localhost';
+```
+
 If the `ssm` user already exists, simply pass its credential when you add the instance:
 
 ```
