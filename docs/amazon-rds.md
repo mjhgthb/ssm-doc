@@ -144,7 +144,7 @@ Select **Parameter groups** on the Amazon RDS page at AWS, click the parameter g
 2. Use Filter to locate **log_output**, set its value to **FILE** to log query in file.
 ![](_images/aws.rds-parameter-groups.3.png)
 
-3. Use Filter to locate **long_query_time**, set its value to **0** to log every query.
+3. Use Filter to locate **long_query_time**, set its value to **0.016** to log every query.
 ![](_images/aws.rds-parameter-groups.4.png)
 
 #### Configuring performance schema (Optional)
