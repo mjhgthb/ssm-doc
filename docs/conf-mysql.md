@@ -154,7 +154,7 @@ If this variable is not set to **ON**, add the the following lines to the MySQL 
 performance_schema=ON
 ```
 
-To collect queries from performance_schema, make sure that the `statements_digest`, `events_statements_history` and `events_statements_history_long` consumers are enabled:
+To collect queries from performance_schema, make sure that the `statements_digest`, `events_statements_history` and `events_statements_history_long` consumers are enabled. On MariaDB you will also need `events_transactions%` consumers enabled:
 
 ```
 mysql> select * from setup_consumers;
@@ -166,10 +166,10 @@ mysql> select * from setup_consumers;
 | events_stages_history_long       | NO      |
 | events_statements_current        | YES     |
 | events_statements_history        | YES     |
-| events_statements_history_long   | NO      |
-| events_transactions_current      | NO      |
-| events_transactions_history      | NO      |
-| events_transactions_history_long | NO      |
+| events_statements_history_long   | YES     |
+| events_transactions_current      | YES     |
+| events_transactions_history      | YES     |
+| events_transactions_history_long | YES     |
 | events_waits_current             | NO      |
 | events_waits_history             | NO      |
 | events_waits_history_long        | NO      |
@@ -186,6 +186,8 @@ To enable event_statements_history consumers via your `my.cnf`, add this to the 
 ```
 performance_schema_consumer_events_statements_history = ON
 performance_schema_consumer_events_statements_history_long = ON
+performance_schema_consumer_events_transactions_history = ON
+performance_schema_consumer_events_transactions_history_long = ON
 ```
 
 !!! alert alert-warning "Important"
