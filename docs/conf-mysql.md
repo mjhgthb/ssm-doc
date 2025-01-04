@@ -154,7 +154,7 @@ If this variable is not set to **ON**, add the the following lines to the MySQL 
 performance_schema=ON
 ```
 
-To collect queries from performance_schema, make sure that the `statements_digest` and `events_statements_history` consumers are enabled:
+To collect queries from performance_schema, make sure that the `statements_digest`, `events_statements_history` and `events_statements_history_long` consumers are enabled:
 
 ```
 mysql> select * from setup_consumers;
@@ -178,6 +178,14 @@ mysql> select * from setup_consumers;
 | statements_digest                | YES     |
 +----------------------------------+---------+
 15 rows in set (0.00 sec)
+```
+
+The `statements_digest` consumer is enabled by default on recent versions of MySQL and MariaDB, but `event_Statements_history` and `events_staements_history_long` are not.
+
+To enable event_statements_history consumers via your `my.cnf`, add this to the `[mysqld]` section:
+```
+performance_schema_consumer_events_statements_history = ON
+performance_schema_consumer_events_statements_history_long = ON
 ```
 
 !!! alert alert-warning "Important"
