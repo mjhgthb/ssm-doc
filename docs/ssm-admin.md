@@ -437,6 +437,21 @@ The following options can be used with the `mysql:metrics` alias:
 `--disable-tablestats-limit`
 : Specify the maximum number of tables for which collection of table statistics is enabled (by default, the limit is 1 000 tables).
 
+Disabling the table stats will disable the following collectors in `mysqld_exporter.conf`:
+```
+info_schema.tables
+auto_increment.columns
+perf_schema.tableiowaits
+perf_schema.indexiowaits
+perf_schema.tablelocks
+info_schema.tablestats
+```
+
+If you are getting telemetry dropouts due to timeouts caused by gathering detailed telemetry from many thousands of tables, change these to 0 in your `mysqld_exporter.conf` and restart the mysql:metric collector by running
+```
+ssm-admin restart mysql:metrics
+```
+
 `--disable-userstats`
 : Disable collection of user statistics.
 
