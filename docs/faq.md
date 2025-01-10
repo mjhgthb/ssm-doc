@@ -87,7 +87,7 @@ $ sudo ssm-admin add mysql --disable-tablestats
 ```
 
 !!! alert alert-info "Note"
-    Table statistics are disabled automatically if there are over 1 000 tables.
+    Table statistics are disabled automatically if there are over 1,000 tables.
 
 For more information, run as root **ssm-admin add** `mysql --help`.
 
