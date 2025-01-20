@@ -21,6 +21,8 @@ $ docker exec -it ssm-server bash -c 'echo "$SSM_VERSION"'
 
 To check if there exists a newer version of SSM Server, visit [shatteredsilicon/ssm-server](https://hub.docker.com/r/shatteredsilicon/ssm-server/tags/).
 
+**Note** External connectivity from within the Docker container is essential for the upgrade procedure to fetch the necessary update scripts and upgrade existing Grafana dashboards. If external connectivity is unavailable, it may be preferable to update only the `ssm-server` container and start fresh with an empty `ssm-data` container. However, this approach will result in the loss of all historical data.
+
 ## Creating a backup version of the current ssm-server Docker container
 
 You need to create a backup version of the current `ssm-server` container if the update procedure does not complete successfully or if you decide not to upgrade your SSM Server after trying the new version.
